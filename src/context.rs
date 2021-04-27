@@ -13,7 +13,6 @@ pub struct Context<State : GenerateDirectives> {
     pub directives: HashMap<String, Box<dyn FnMut(&mut DirectiveParser, &mut State) -> String>>,
 }
 
-// Builder functions
 impl<State : GenerateDirectives> Context<State> {
     pub fn new(state: State) -> Self {
         Self {

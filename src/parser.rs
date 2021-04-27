@@ -11,6 +11,10 @@ impl<'a> DirectiveParser<'a> {
         }
     }
 
+    pub fn remaining(&self) -> &'a str {
+        &self.text[self.position..]
+    }
+
     pub fn current_char(&self) -> char {
         self.text[self.position..=self.position+1].chars().nth(0).unwrap()
     }
@@ -102,13 +106,10 @@ impl<'a> DirectiveParser<'a> {
 
         let end = self.position;
 
-        loop {
-            if self.current_char().is_alphanumeric() || self.current_char() == '_' {
-                self.position -= 1;
-            } else {
-                break;
-            }
+        while self.current_char().is_alphanumeric() || self.current_char() == '_' {
+            self.position -= 1;
         }
+
         // TODO: Ensure word doesn't start with numbers -> remove numbers if it does
 
         let start = self.position;

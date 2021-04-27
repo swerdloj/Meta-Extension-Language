@@ -60,7 +60,7 @@ impl GenerateDirectives for State {
             // Remove trailing ",\n"
             output.pop(); output.pop();
             output.push_str("\n}");
-            output.push_str(&parser.text[parser.position..]);
+            output.push_str(parser.remaining());
         } else {
             // TODO:
             todo!("Error on directive not found")
@@ -71,6 +71,8 @@ impl GenerateDirectives for State {
 }
 
 fn main() {
+    /*** NOTE: The following section would be obtained from an external definition ***/
+
     // TODO: Get context externally
     let mut context = Context::new(State::new())
         .with_key('@')
@@ -102,9 +104,11 @@ fn main() {
         });
 
     // TODO: Get target directory externally
-    let targets = get_mex_files("./tests").unwrap();
+    let mex_dir = "./tests";
 
-
+    /*** End external section ***/
+    
+    let targets = get_mex_files(mex_dir).unwrap();
 
     
     for target in targets {
@@ -143,8 +147,8 @@ fn main() {
                 output.push_str(&context.state.handle_custom_directive(directive, &mut parser));
             }
 
-            println!("\n---{:?}---\nOUTPUT:\n{}", target, output);
         }
+        println!("\n---{:?}---\nOUTPUT:\n{}", target, output);
 
         // Write generated file
         let output_path = target.to_string_lossy().replace(".mex", "");
