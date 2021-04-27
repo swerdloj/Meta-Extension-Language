@@ -101,15 +101,17 @@ fn main() {
 
             }
             String::from(parser.text)
-        });
+        }
+    );
 
-    // TODO: Get target directory externally
     let mex_dir = "./tests";
-
+        
     /*** End external section ***/
-    
+        
+    // TODO: Get target directory externally
     let targets = get_mex_files(mex_dir).unwrap();
 
+    
     
     for target in targets {
         let mut output = String::new();
